@@ -13,7 +13,7 @@
   let defects = [];
 
   function render() {
-    const sorted = [...defects].sort((a, b) => b.updatedAt - a.updatedAt);
+    const sorted = defects.filter((d) => !d.deleted).sort((a, b) => b.updatedAt - a.updatedAt);
     countEl.textContent = `${sorted.length}건`;
     emptyEl.hidden = sorted.length > 0;
     listEl.innerHTML = '';

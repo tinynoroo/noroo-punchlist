@@ -200,7 +200,7 @@ function removeFiles(id, filenames) {
 
 // ---------- API ----------
 app.get('/api/defects', (req, res) => {
-  const sorted = [...defects].sort((a, b) => b.updatedAt - a.updatedAt);
+  const sorted = defects.filter((d) => !d.deleted).sort((a, b) => b.updatedAt - a.updatedAt);
   res.json(sorted);
 });
 
@@ -223,6 +223,7 @@ app.post('/api/defects', assignNewId, makeUpload((req) => req.newId).array('imag
     location,
     content,
     images: (req.files || []).map((f) => f.filename),
+    deleted: false,
     createdAt: now,
     updatedAt: now,
   };
@@ -262,6 +263,16 @@ app.put('/api/defects/:id', (req, res, next) => {
   persist();
   broadcast({ type: 'upsert', defect: item });
   res.json(item);
+});
+
+app.delete('/api/defects/:id', (req, res) => {
+  const item = defects.find((d) => d.id === req.params.id);
+  if (!item) return res.sendStatus(404);
+  item.deleted = true;
+  item.updatedAt = Date.now();
+  persist();
+  broadcast({ type: 'upsert', defect: item });
+  res.json({ ok: true });
 });
 
 // ---------- 실시간 (WebSocket) ----------

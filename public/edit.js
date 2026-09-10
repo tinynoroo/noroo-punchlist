@@ -15,6 +15,7 @@
   const submitLabel = document.getElementById('submitLabel');
   const spinnerEl = submitBtn.querySelector('.spinner');
   const tileTpl = document.getElementById('photoTileTemplate');
+  const deleteBtn = document.getElementById('deleteBtn');
 
   const idleLabel = isEdit ? '수정하기' : '등록하기';
   const busyLabel = isEdit ? '수정하는 중...' : '업로드하는 중...';
@@ -25,6 +26,25 @@
     submitBtn.disabled = isSubmitting;
     spinnerEl.hidden = !isSubmitting;
     submitLabel.textContent = isSubmitting ? busyLabel : idleLabel;
+  }
+
+  if (isEdit) {
+    deleteBtn.hidden = false;
+    deleteBtn.addEventListener('click', async () => {
+      if (!confirm('정말 삭제할까요? 삭제하면 목록에서 사라집니다.')) return;
+      clearError();
+      deleteBtn.disabled = true;
+      deleteBtn.textContent = '삭제하는 중...';
+      try {
+        const res = await fetch(`/api/defects/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('failed');
+        location.href = '/';
+      } catch (err) {
+        deleteBtn.disabled = false;
+        deleteBtn.textContent = '삭제';
+        showError('삭제하지 못했습니다.');
+      }
+    });
   }
 
   let existing = []; // { filename, url }
