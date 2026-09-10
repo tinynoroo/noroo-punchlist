@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하자등록</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="dot" id="connDot" title="연결 상태"></span>
+      <h1>하자등록</h1>
+    </div>
+    <div class="topbar-meta">
+      <span id="count" class="count">0건</span>
+      <button id="logoutBtn" class="link-btn">로그아웃</button>
+    </div>
+  </header>
+
+  <main id="list" class="list"></main>
+
+  <p id="empty" class="empty" hidden>
+    등록된 하자가 아직 없습니다.<br>오른쪽 아래 + 버튼으로 첫 항목을 등록하세요.
+  </p>
+
+  <a href="/edit" class="fab" aria-label="하자 등록">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  </a>
+
+  <template id="rowTemplate">
+    <a class="row" href="#">
+      <div class="thumb">
+        <img loading="lazy" alt="">
+        <span class="more-badge" hidden></span>
+      </div>
+      <div class="row-body">
+        <p class="row-location"></p>
+        <p class="row-content"></p>
+        <p class="row-time"></p>
+      </div>
+    </a>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

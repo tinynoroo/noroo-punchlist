@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하자등록</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="login-body">
+  <main class="login-card">
+    <p class="eyebrow">현장 점검</p>
+    <h1>하자등록</h1>
+    <p class="lead">비밀번호를 입력하면 목록을 볼 수 있어요.</p>
+    <form id="loginForm" autocomplete="off">
+      <label for="password">비밀번호</label>
+      <input id="password" name="password" type="password" inputmode="text" autofocus required>
+      <p id="error" class="error" hidden></p>
+      <button type="submit">입장하기</button>
+    </form>
+  </main>
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorEl = document.getElementById('error');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+      const password = document.getElementById('password').value;
+      const btn = form.querySelector('button');
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+        if (res.ok) {
+          location.href = '/';
+          return;
+        }
+        const data = await res.json().catch(() => ({}));
+        errorEl.textContent = data.error || '입장할 수 없습니다.';
+        errorEl.hidden = false;
+      } catch (err) {
+        errorEl.textContent = '네트워크 오류가 발생했습니다.';
+        errorEl.hidden = false;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

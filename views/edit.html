@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하자등록</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="edit-body">
+  <header class="topbar">
+    <div class="topbar-title">
+      <a href="/" class="back-btn" aria-label="목록으로">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </a>
+      <h1 id="pageTitle">하자 등록</h1>
+    </div>
+  </header>
+
+  <main class="form-wrap">
+    <form id="defectForm">
+      <section class="field">
+        <label>사진 <span class="hint">(<span id="photoCount">0</span>/5)</span></label>
+        <div id="photoGrid" class="photo-grid"></div>
+        <input type="file" id="fileInput" accept="image/*" capture="environment" multiple hidden>
+      </section>
+
+      <section class="field">
+        <label for="location">하자 위치</label>
+        <input id="location" name="location" type="text" placeholder="예) 안방 화장실 세면대 아래" required>
+      </section>
+
+      <section class="field">
+        <label for="content">하자 내용</label>
+        <textarea id="content" name="content" rows="5" placeholder="예) 실리콘 마감 들뜸, 배수 느림" required></textarea>
+      </section>
+
+      <p id="error" class="error" hidden></p>
+
+      <div class="form-actions">
+        <a href="/" class="btn-secondary">취소</a>
+        <button type="submit" id="submitBtn" class="btn-primary">등록하기</button>
+      </div>
+    </form>
+  </main>
+
+  <template id="photoTileTemplate">
+    <div class="photo-tile">
+      <img alt="">
+      <button type="button" class="remove-btn" aria-label="사진 삭제">&times;</button>
+    </div>
+  </template>
+
+  <script src="/static/edit.js"></script>
+</body>
+</html>

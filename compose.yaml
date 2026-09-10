@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    image: punchlist:local
+    container_name: punchlist
+    restart: unless-stopped
+    environment:
+      APP_PASSWORD: ${APP_PASSWORD:?Set APP_PASSWORD in ~/srv/punchlist/.env}
+      SESSION_SECRET: ${SESSION_SECRET:?Set SESSION_SECRET in ~/srv/punchlist/.env}
+    ports:
+      # 호스트 Caddy가 이 포트로 프록시한다. app.json 의 port 와 같아야 한다.
+      - "127.0.0.1:9001:8000"
+    volumes:
+      - punchlist_data:/app/data
+    networks: [default, dbnet]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+volumes:
+  punchlist_data:
+
+networks:
+  # DB를 쓰지 않지만 deployctl validate가 모든 사이트에 dbnet 참여를 요구한다.
+  dbnet:
+    external: true
