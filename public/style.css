@@ -242,11 +242,26 @@ a { color: inherit; }
   flex: 1; text-align: center; padding: 15px; border-radius: var(--radius-md);
   font-size: 1.02rem; font-weight: 700; border: none; cursor: pointer; text-decoration: none;
 }
-.btn-primary { background: var(--accent); color: var(--accent-contrast); }
+.btn-primary {
+  background: var(--accent); color: var(--accent-contrast);
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+}
 .btn-primary:hover { background: var(--accent-strong); }
-.btn-primary:disabled { opacity: 0.6; cursor: default; }
+.btn-primary:disabled { opacity: 0.85; cursor: default; }
 .btn-secondary { background: var(--surface-2); color: var(--ink); }
 .btn-secondary:hover { background: var(--line); }
+
+.spinner {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border: 2.5px solid color-mix(in srgb, var(--accent-contrast) 35%, transparent);
+  border-top-color: var(--accent-contrast);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 1.4s; }
+}
 
 .error {
   color: var(--danger); font-size: 0.9rem; font-weight: 600;

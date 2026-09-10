@@ -12,10 +12,20 @@
   const fileInput = document.getElementById('fileInput');
   const errorEl = document.getElementById('error');
   const submitBtn = document.getElementById('submitBtn');
+  const submitLabel = document.getElementById('submitLabel');
+  const spinnerEl = submitBtn.querySelector('.spinner');
   const tileTpl = document.getElementById('photoTileTemplate');
 
+  const idleLabel = isEdit ? '수정하기' : '등록하기';
+  const busyLabel = isEdit ? '수정하는 중...' : '업로드하는 중...';
   document.getElementById('pageTitle').textContent = isEdit ? '하자 수정' : '하자 등록';
-  submitBtn.textContent = isEdit ? '수정하기' : '등록하기';
+  submitLabel.textContent = idleLabel;
+
+  function setSubmitting(isSubmitting) {
+    submitBtn.disabled = isSubmitting;
+    spinnerEl.hidden = !isSubmitting;
+    submitLabel.textContent = isSubmitting ? busyLabel : idleLabel;
+  }
 
   let existing = []; // { filename, url }
   let newFiles = []; // File
@@ -99,7 +109,7 @@
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     clearError();
-    submitBtn.disabled = true;
+    setSubmitting(true);
 
     const formData = new FormData();
     formData.append('location', locationInput.value.trim());
@@ -117,13 +127,13 @@
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         showError(data.error || '저장하지 못했습니다.');
-        submitBtn.disabled = false;
+        setSubmitting(false);
         return;
       }
       location.href = '/';
     } catch (err) {
       showError('네트워크 오류가 발생했습니다.');
-      submitBtn.disabled = false;
+      setSubmitting(false);
     }
   });
 })();
