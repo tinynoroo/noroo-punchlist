@@ -1,5 +1,7 @@
 # noroo-punchlist
 
+**English** | [한국어](README.ko.md)
+
 A shared punch list for a home inspection. Everyone opens the same page on their phone, logs each defect with photos, and the list updates live for the whole group.
 
 Made for a pre-move-in inspection of a new apartment, where several people walk the rooms at once and every defect has to end up in one list. The interface is in Korean.
